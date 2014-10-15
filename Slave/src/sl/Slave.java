@@ -40,13 +40,8 @@ public class Slave {
 
         switch (packet.getType()){
             case INTERNAL_COMMAND: return interpretInternalCommand(packet);
-            default return notImplemented(packet);
+            default: return notImplemented(packet);
         }
-
-
-
-        //implement
-        return null;
     }
 
     private Packet interpretInternalCommand(Packet packet) {
