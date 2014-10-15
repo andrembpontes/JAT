@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Brain/Brain.iml" filepath="$PROJECT_DIR$/Brain/Brain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JAT.iml" filepath="$PROJECT_DIR$/JAT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Protocol/Protocol.iml" filepath="$PROJECT_DIR$/Protocol/Protocol.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Slave/Slave.iml" filepath="$PROJECT_DIR$/Slave/Slave.iml" />
+    </modules>
+  </component>
+</project>
+
