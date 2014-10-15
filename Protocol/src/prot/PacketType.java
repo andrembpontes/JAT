@@ -8,7 +8,11 @@ import java.util.Map;
  * @author Andre Pontes (42845)
  */
 public enum PacketType implements Serializable {
-    TASK_COMPLETE(),
+    /**
+     * msg : String
+     */
+    TASK_COMPLETE("msg"),
+
     /**
      * error : Error
      */
@@ -28,7 +32,12 @@ public enum PacketType implements Serializable {
     /**
      * command : InternalCommand
      */
-    INTERNAL_COMMAND("command");
+    INTERNAL_COMMAND("command"),
+
+    /**
+     * exception : Exception
+     */
+    EXCEPTION("exception");
 
     String[] params;
 

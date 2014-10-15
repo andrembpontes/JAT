@@ -37,15 +37,25 @@ public class Slave {
     }
 
     public Packet interpretPacket(Packet packet){
-
-        switch (packet.getType()){
-            case INTERNAL_COMMAND: return interpretInternalCommand(packet);
-            default: return notImplemented(packet);
+        try {
+            //TODO implement missing
+            switch (packet.getType()) {
+                case INTERNAL_COMMAND:
+                    return interpretInternalCommand(packet);
+                default:
+                    return notImplemented(packet);
+            }
+        } catch(Exception e){
+            return PacketFactory.Exception(e);
         }
     }
 
     private Packet interpretInternalCommand(Packet packet) {
-        return PacketFactory.Error(Error.NOT_IMPLEMENTED);
+        //TODO implement
+        switch ((InternalCommand) packet.getParams().get("command")) {
+            //case ECHO: return InternalCommands.echo(packet);
+            default: return notImplemented(packet);
+        }
     }
 
     private Packet notImplemented(Packet packet) {
