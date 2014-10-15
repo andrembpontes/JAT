@@ -1,6 +1,7 @@
 package sl;
 
-import prot.Packet;
+import prot.*;
+import prot.Error;
 
 import java.io.*;
 import java.net.Socket;
@@ -36,7 +37,23 @@ public class Slave {
     }
 
     public Packet interpretPacket(Packet packet){
+
+        switch (packet.getType()){
+            case INTERNAL_COMMAND: return interpretInternalCommand(packet);
+            default return notImplemented(packet);
+        }
+
+
+
         //implement
         return null;
+    }
+
+    private Packet interpretInternalCommand(Packet packet) {
+        return PacketFactory.Error(Error.NOT_IMPLEMENTED);
+    }
+
+    private Packet notImplemented(Packet packet) {
+        return PacketFactory.Error(Error.NOT_IMPLEMENTED);
     }
 }
