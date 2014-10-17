@@ -1,14 +1,18 @@
 package sl;
 
-import prot.Packet;
-import prot.PacketFactory;
+import prot.*;
+
+import java.net.Socket;
 
 /**
  * @author Andre Pontes (42845)
  */
 public class InternalCommands {
     public static Packet echo(Packet packet){
-        //TODO implement
-        return null;
+        return PacketFactory.taskCompleted((String) packet.getParams().get("echo"));
+    }
+
+    public static Packet slaveInfo(Packet packet, Socket socket){
+        return PacketFactoryInternal.slaveInfo(new SlaveInfo(socket.getLocalSocketAddress(), System.getProperties()));
     }
 }

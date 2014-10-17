@@ -24,10 +24,10 @@ public class PacketFactoryInternal {
         return newInternalCommand(params);
     }
 
-    public static Packet getSlaveInfo(SlaveInfo slaveInfo){
+    public static Packet slaveInfo(SlaveInfo slaveInfo){
         Map<String, Object> params = getInternalEmptyParams();
 
-        params.put("command", InternalCommand.GET_SLAVE_INFO);
+        params.put("command", InternalCommand.SLAVE_INFO);
         params.put("slave_info", slaveInfo);
 
         return newInternalCommand(params);

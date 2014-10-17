@@ -30,6 +30,12 @@ public enum PacketType implements Serializable {
     EXEC("command"),
 
     /**
+     * stdOut : String
+     * stdErr : String
+     */
+    EXEC_RESULT("stdOut", "stdErr"),
+
+    /**
      * command : InternalCommand
      */
     INTERNAL_COMMAND("command"),

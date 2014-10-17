@@ -18,7 +18,7 @@ public enum InternalCommand implements Serializable {
      * Get slave info
      * aditional params: slave_info : SlaveInfo
      */
-    GET_SLAVE_INFO("slave_info");
+    SLAVE_INFO("slave_info");
 
     String[] params;
 
