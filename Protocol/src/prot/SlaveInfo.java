@@ -23,4 +23,10 @@ public class SlaveInfo {
     public Properties getSystemProperties() {
         return systemProperties;
     }
+
+    @Override
+    public String toString(){
+        String toString = socketAddress.toString() + "\n";
+        return toString;
+    }
 }

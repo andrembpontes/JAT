@@ -55,19 +55,19 @@ public class Brain{
 
 
     ServerSocket serverSocket;
-    ArrayList<Socket> sockets;
+    ArrayList<SlaveConnection> slaves;
     Listener listener;
     PrintStream log;
 
     public Brain(int port, PrintStream log) throws IOException {
         this.serverSocket = new ServerSocket(port);
-        this.sockets = new ArrayList<Socket>();
+        this.slaves = new ArrayList<SlaveConnection>();
         this.listener = new Listener(this);
         this.log = log;
     }
 
     public void addSocket(Socket socket){
-        this.sockets.add(socket);
+        this.slaves.add(new SlaveConnection(socket));
         this.log.println("[NEW CONNECTION] From: " + socket.getRemoteSocketAddress());
     }
 
@@ -88,8 +88,8 @@ public class Brain{
             this.listener.stopListening();
     }
 
-    public Iterator<Socket> getSockets(){
-        return this.sockets.iterator();
+    public Iterator<SlaveConnection> getSlaves(){
+        return this.slaves.iterator();
     }
 
 }
