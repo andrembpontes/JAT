@@ -12,7 +12,7 @@ public class Packet implements Serializable{
 
     protected Packet(PacketType type, Map<String, Object> params){
         this.type = type;
-        if(params.keySet().equals(type.emptyParams().keySet()))
+        if(params.keySet().containsAll(type.emptyParams().keySet()))
             this.params = params;
         else
             throw new InvalidPacketParams();
