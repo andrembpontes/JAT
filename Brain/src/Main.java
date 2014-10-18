@@ -17,6 +17,7 @@ public class Main {
             ComandLineInterface ui = new ComandLineInterface(brain, System.in, System.out);
 
             brain.startListening();
+            ui.startInteraction();
 
         } catch (IOException e) {
             e.printStackTrace();

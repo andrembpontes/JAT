@@ -26,6 +26,7 @@ public class Main{
 			}
 			catch(Exception e){
 				//do nothing
+                e.printStackTrace();
 			}
 		}
 	}

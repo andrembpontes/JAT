@@ -33,7 +33,7 @@ public class PacketFactory {
         args.put("path", path);
         args.put("bytes", bytes);
 
-        return new Packet(PacketType.INTERNAL_COMMAND, args);
+        return new Packet(PacketType.FILE, args);
     }
 
     public static Packet exec(String command){

@@ -15,6 +15,11 @@ public enum InternalCommand implements Serializable {
     ECHO ("echo"),
 
     /**
+     * Initiate telnet
+     */
+    TELNET,
+
+    /**
      * Get slave info
      * aditional params: slave_info : SlaveInfo
      */

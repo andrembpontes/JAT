@@ -2,7 +2,6 @@ package cli;
 
 import br.Brain;
 import br.SlaveConnection;
-import jdk.internal.util.xml.impl.Input;
 import prot.Packet;
 import prot.PacketFactory;
 import prot.PacketFactoryInternal;
@@ -10,9 +9,7 @@ import prot.SlaveInfo;
 
 import java.io.*;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 import static cli.Commands.*;
 
@@ -31,13 +28,15 @@ public class ComandLineInterface {
         this.scan = new Scanner(in);
         this.printer = out;
         this.brain = br;
-        startInteraction();
+        //startInteraction();
     }
 
     public void startInteraction(){
         while(true) {
+            boolean discardInput = true;
+
             try {
-                switch (valueOf(this.scan.next())) {
+                switch (valueOf(this.scan.next().toUpperCase())) {
                     case LIST:
                         execList();
                         break;
@@ -56,8 +55,12 @@ public class ComandLineInterface {
                     case HELP:
                         execHelp();
                         break;
+                    case TELNET:
+                        execTelnet();
+                        break;
                     case EXEC:
                         execExec();
+                        discardInput = false;
                         break;
                 }
             }
@@ -67,9 +70,22 @@ public class ComandLineInterface {
             catch (ClassNotFoundException cnfE){
                 cnfE.printStackTrace();
             }
+            catch (IllegalArgumentException iaE){
+                this.printer.println("Invalid command. Use HELP to see available commands...");
+            }
+            catch (NoSelectedSlaveException nssE){
+                this.printer.println("No slave selected :s");
+            }
 
-            this.scan.nextLine();
+            if(discardInput)
+                this.scan.nextLine();
+
+            this.printer.println();
         }
+    }
+
+    private void execTelnet() {
+        this.printer.println("Not implemented");
     }
 
     private void execExec() throws IOException, ClassNotFoundException {
@@ -103,7 +119,9 @@ public class ComandLineInterface {
         Iterator<Object> paramsValues = packet.getParams().values().iterator();
 
         this.printer.println("Printing packet");
-        this.printer.println(packet.getType());
+        this.printer.println("--- (PACKET_START) ---");
+        this.printer.println("type = " + packet.getType());
+        this.printer.println("packet params:");
 
         while(paramsNames.hasNext()){
             this.printer.println(paramsNames.next() + " = ");
@@ -124,32 +142,51 @@ public class ComandLineInterface {
     }
 
     private void execSend() throws IOException, ClassNotFoundException {
-        File file = new File(this.scan.next());
+        String localPath = this.scan.next(),
+                destinationPath = scan.next();
+
+        this.printer.print("Opening file... ");
+        File file = new File(localPath);
         InputStream fileIn = new FileInputStream(file);
+        this.printer.println("[DONE!]");
 
-        byte[] bytes = new byte[(int) file.getTotalSpace()];
+        this.printer.print("Reading file... ");
+        byte[] bytes = new byte[(int) file.length()];
         fileIn.read(bytes);
+        this.printer.println("[DONE!]");
 
-        Packet packet = PacketFactory.file(scan.next(), bytes);
+        Packet packet = PacketFactory.file(destinationPath, bytes);
 
+        this.printer.print("Sending file... ");
         this.getSelectedSlave().send(packet);
+        this.printer.println("[DONE!]");
 
         this.printPacket(this.getSelectedSlave().receive());
     }
 
     private void execGet() throws IOException, ClassNotFoundException {
+        this.printer.print("Requesting slave info... ");
         this.getSelectedSlave().send(PacketFactoryInternal.slaveInfo(null));
+        this.printer.println("[DONE!]");
+
         this.printPacket(this.getSelectedSlave().receive());
     }
 
     private void execSelect() {
-        int i = 0;
+        int toSelect = scan.nextInt();
+        int i = -1;
         Iterator<SlaveConnection> iterator = this.brain.getSlaves();
 
-        while(i++ < scan.nextInt())
+        while (++i < toSelect && iterator.hasNext())
             iterator.next();
 
-        this.selectedSlave = iterator.next();
+        if (i == toSelect && iterator.hasNext()) {
+            this.selectedSlave = iterator.next();
+            this.printer.println("Slave " + this.selectedSlave.getSocket().getRemoteSocketAddress() + " selected");
+        }
+        else{
+            this.printer.println("Invalid slave index!");
+        }
     }
 
     private void execView() {
@@ -157,6 +194,7 @@ public class ComandLineInterface {
     }
 
     public void execList(){
+        this.printer.println("Available slaves:");
         this.printSlaves();
     }
 

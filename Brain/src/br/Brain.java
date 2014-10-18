@@ -27,13 +27,13 @@ public class Brain{
         @Override
         public void run(){
             this.stop = false;
-
+/*
             try {
                 this.brain.getServerSocket().setSoTimeout(TIMEOUT);
             } catch (SocketException e) {
                 e.printStackTrace();
             }
-
+*/
             while(!stop){
                 try {
                     Socket socket = this.brain.getServerSocket().accept();
@@ -66,7 +66,7 @@ public class Brain{
         this.log = log;
     }
 
-    public void addSocket(Socket socket){
+    public void addSocket(Socket socket) throws IOException {
         this.slaves.add(new SlaveConnection(socket));
         this.log.println("[NEW CONNECTION] From: " + socket.getRemoteSocketAddress());
     }

@@ -10,5 +10,6 @@ public enum Commands {
     GET,
     SEND,
     EXEC,
+    TELNET,
     HELP;
 }

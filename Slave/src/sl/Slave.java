@@ -17,8 +17,14 @@ public class Slave {
     private ObjectOutput out;
 
     public Slave(String destination, int port) throws IOException {
+        System.out.println("Trying to connect with " + destination + ": " + port);
+        System.out.flush();
+
         this.socket = new Socket(destination, port);
         this.initialiseStreams();
+
+        System.out.println("Connected! ;)");
+        System.out.flush();
     }
 
     public boolean isConnected(){
@@ -26,7 +32,9 @@ public class Slave {
     }
 
     public void initialiseStreams() throws IOException {
+        System.out.println("Initializing input stream");
         this.in = new ObjectInputStream(this.socket.getInputStream());
+        System.out.println("Initializing output stream");
         this.out = new ObjectOutputStream(this.socket.getOutputStream());
     }
 
