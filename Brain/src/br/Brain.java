@@ -13,6 +13,7 @@ import java.util.Iterator;
  * @author Andre Pontes (42845)
  */
 public class Brain{
+
     class Listener extends Thread{
         public static final int TIMEOUT = 10000;
 
@@ -81,6 +82,12 @@ public class Brain{
             this.listener.start();
             this.log.println("Listener started at port: " + this.serverSocket.getLocalPort() );
         }
+    }
+
+    public void removeDisconnected() {
+        for(SlaveConnection slave : this.slaves)
+            if(!slave.getSocket().isConnected())
+                this.slaves.remove(slave);
     }
 
     public void stopListening(){

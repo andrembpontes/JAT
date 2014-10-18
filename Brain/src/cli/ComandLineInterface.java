@@ -8,6 +8,7 @@ import prot.PacketFactoryInternal;
 import prot.SlaveInfo;
 
 import java.io.*;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -17,6 +18,7 @@ import static cli.Commands.*;
  * @author Andre Pontes (42845)
  */
 public class ComandLineInterface {
+    private static final long STARTED_TIME = System.currentTimeMillis();
 
     Scanner scan;
     PrintStream printer;
@@ -62,6 +64,12 @@ public class ComandLineInterface {
                         execExec();
                         discardInput = false;
                         break;
+                    case REFRESH:
+                        execRefresh();
+                        break;
+                    case LIFE_TIME:
+                        execLifeTime();
+                        break;
                 }
             }
             catch (IOException ioE){
@@ -82,6 +90,17 @@ public class ComandLineInterface {
 
             this.printer.println();
         }
+    }
+
+    private void execRefresh() {
+        this.printer.print("Removing disconnected slaves... ");
+        this.brain.removeDisconnected();
+        this.printer.println("[DONE!]");
+    }
+
+    private void execLifeTime() {
+        this.printer.println("Brain started at " + new Date(ComandLineInterface.STARTED_TIME));
+        this.printer.println("Running for " + (int) (System.currentTimeMillis() - STARTED_TIME) / 1000 + " seconds");
     }
 
     private void execTelnet() {

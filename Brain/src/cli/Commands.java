@@ -11,5 +11,7 @@ public enum Commands {
     SEND,
     EXEC,
     TELNET,
+    LIFE_TIME,
+    REFRESH,
     HELP;
 }
